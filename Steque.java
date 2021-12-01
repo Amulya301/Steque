@@ -142,6 +142,7 @@ public class Steque<Item> implements Iterable<Item> {
         s.push(5);
         s.push(10);
         s.push(15);
+        //s.push(null);
         Iterator<Integer> iit = s.iterator();
         System.out.print("steque elements");
         while(iit.hasNext()){
