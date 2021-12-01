@@ -100,7 +100,11 @@ public class Steque<Item> implements Iterable<Item> {
      * @return size as integer.
      */
     public int size() {
-
+        int n=0;
+        for(Item item:this){
+            n++;
+        }
+        return n;
     }
     
     /**
