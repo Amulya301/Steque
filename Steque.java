@@ -54,10 +54,10 @@ public class Steque<Item> implements Iterable<Item> {
      */
     public void enqueue(Item item) {
         if(item==null) throw new IllegalArgumentException();
-        if (last == i.length) resize(2*i.length); 
-        i[last++] = item;                       
-        if (last == i.length) last = 0;          
-        n++;
+        if (n == i.length) resize(2*i.length); 
+       last = (last+1)%incapacity;
+       i[last++] = item;
+       n++;
     }
     
     
