@@ -54,7 +54,7 @@ public class Steque<Item> implements Iterable<Item> {
      */
     public void enqueue(Item item) {
         if(item==null) throw new IllegalArgumentException();
-        if (n == i.length) resize(2*i.length);   
+        if (last == i.length) resize(2*i.length); 
         i[last++] = item;                       
         if (last == i.length) last = 0;          
         n++;
@@ -62,14 +62,11 @@ public class Steque<Item> implements Iterable<Item> {
     
     
     private void resize(int capacity) {
-        assert capacity >= n;
         Item[] copy = (Item[]) new Object[capacity];
-        for (int j = 0; j < n; j++) {
-            copy[j] = i[(first + j) % i.length];
+        for (int j = 0; j < i.length; j++) {
+            copy[j] = i[j];
+            i = copy;
         }
-        i = copy;
-        first = 0;
-        last  = n;
     }
 
 
@@ -80,7 +77,8 @@ public class Steque<Item> implements Iterable<Item> {
     public void push(Item item) {
         if(item==null) throw new IllegalArgumentException();
         if(n==i.length) resize(2*i.length);
-        i[n++] = item;
+        i[first] = item;
+        n++;
     }
     
     /**
@@ -123,13 +121,15 @@ public class Steque<Item> implements Iterable<Item> {
 
     }
     public class ArrayIterator implements Iterator<Item>{
-        private int j=0;
+        private int j;
+        private int size;
         public ArrayIterator() {
-            j = n-1;
+            j = first;
+            size=n;
         }
 
         public boolean hasNext() {
-            return j < n || j >= 0;
+            return j!=0;
         }
 
         public void remove() {
@@ -138,9 +138,11 @@ public class Steque<Item> implements Iterable<Item> {
 
         public Item next() {
             if (!hasNext()) throw new NoSuchElementException();
-            Item item = i[(j + first) % i.length];
-            j++;
-            return item;
+            size--;
+            return i[j++];
+            //Item item = i[(j + first) % i.length];
+            // j++;
+            // return item;
             //return i[j--];
         }
     }
@@ -153,11 +155,11 @@ public class Steque<Item> implements Iterable<Item> {
         s.push(10);
         s.push(15);
         Iterator<Integer> iit = s.iterator();
-        System.out.print("steque elements");
+        System.out.println("steque elements");
         while(iit.hasNext()){
             System.out.println(iit.next());
         }
-        System.out.print("popped elements");
+        System.out.println("popped elements");
         while(!s.isEmpty()){
             System.out.println(s.pop());
         }
