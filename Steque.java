@@ -78,7 +78,9 @@ public class Steque<Item> implements Iterable<Item> {
      * @param item Item to be inserted.
      */
     public void push(Item item) {
-
+        if(item==null) throw new IllegalArgumentException();
+        if(n==i.length) resize(2*i.length);
+        i[n++] = item;
     }
     
     /**
@@ -86,7 +88,7 @@ public class Steque<Item> implements Iterable<Item> {
      * @return Item object from steque.
      */
     public Item pop() {
-
+      
     }
     
     /**
