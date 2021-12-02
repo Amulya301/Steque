@@ -33,6 +33,8 @@ public class Steque<Item> implements Iterable<Item> {
     private Item[] i;
     private int n;
     private  int incapacity=10;
+    private int first;
+    private int last;
 
     /**
      * constructs a steque object.
@@ -40,6 +42,8 @@ public class Steque<Item> implements Iterable<Item> {
     public Steque() {
         a = (Item[]) new Object([incapacity]);
         n = 0;
+        first=0;
+        last=0;
 
     }
     
@@ -49,10 +53,26 @@ public class Steque<Item> implements Iterable<Item> {
      * @param item Item to be inserted.
      */
     public void enqueue(Item item) {
-
+        if(item==null) throw new IllegalArgumentException();
+        if (n == i.length) resize(2*i.length);   
+        i[last++] = item;                       
+        if (last == i.length) last = 0;          
+        n++;
     }
     
     
+    private void resize(int capacity) {
+        assert capacity >= n;
+        Item[] copy = (Item[]) new Object([capacity]);
+        for (int j = 0; j < n; j++) {
+            copy[j] = i[(first + j) % i.length];
+        }
+        q = copy;
+        first = 0;
+        last  = n;
+    }
+
+
     /**
      * inserts an item in the steque in stack fashion.
      * @param item Item to be inserted.
