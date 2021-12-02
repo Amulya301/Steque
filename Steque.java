@@ -40,7 +40,7 @@ public class Steque<Item> implements Iterable<Item> {
      * constructs a steque object.
      */
     public Steque() {
-        a = (Item[]) new Object([incapacity]);
+        i = (Item[]) new Object[incapacity];
         n = 0;
         first=0;
         last=0;
@@ -63,11 +63,11 @@ public class Steque<Item> implements Iterable<Item> {
     
     private void resize(int capacity) {
         assert capacity >= n;
-        Item[] copy = (Item[]) new Object([capacity]);
+        Item[] copy = (Item[]) new Object[capacity];
         for (int j = 0; j < n; j++) {
             copy[j] = i[(first + j) % i.length];
         }
-        q = copy;
+        i = copy;
         first = 0;
         last  = n;
     }
@@ -119,6 +119,33 @@ public class Steque<Item> implements Iterable<Item> {
      * 
      */
     public Iterator<Item> iterator() {
+        return new ArrayIterator();
+
+    }
+    public class ArrayIterator implements Iterator<Item>{
+        private int j=0;
+        public ArrayIterator() {
+            j = n-1;
+        }
+
+        public boolean hasNext() {
+            return j < n || j >= 0;
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+
+        public Item next() {
+            if (!hasNext()) throw new NoSuchElementException();
+            Item item = i[(j + first) % i.length];
+            j++;
+            return item;
+            //return i[j--];
+        }
+    }
+    public static void main(String[] args){
+        Steque<Integer> s = new Steque<Integer>();
 
     }
 }
