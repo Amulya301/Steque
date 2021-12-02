@@ -146,6 +146,6 @@ public class Steque<Item> implements Iterable<Item> {
     }
     public static void main(String[] args){
         Steque<Integer> s = new Steque<Integer>();
-
+        
     }
 }
