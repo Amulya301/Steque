@@ -30,13 +30,19 @@ import java.util.NoSuchElementException;
  *
  */
 public class Steque<Item> implements Iterable<Item> {
-
+    private Node first, last;
+    private int n;
+    private class Node{
+        Item item;
+        Node next;
+    }
 
     /**
      * constructs a steque object.
      */
     public Steque() {
-
+        first = last = null;
+        n = 0;
     }
     
     
@@ -45,7 +51,14 @@ public class Steque<Item> implements Iterable<Item> {
      * @param item Item to be inserted.
      */
     public void enqueue(Item item) {
-
+        if(item == null) throw new IllegalArgumentException();
+        Node oldlast = last;
+        last = new Node();
+        last.item = item;
+        last.next = null;
+        if(first == null) first=last;
+        else oldlast.next = last;
+        n++;
     }
     
     
@@ -54,7 +67,13 @@ public class Steque<Item> implements Iterable<Item> {
      * @param item Item to be inserted.
      */
     public void push(Item item) {
-
+        if(item == null) throw new IllegalArgumentException();
+        Node oldfirst = first;
+        first = new Node();
+        first.item = item;
+        first.next = oldfirst;
+        if(last == null) first=last;
+        n++;
     }
     
     /**
@@ -62,7 +81,11 @@ public class Steque<Item> implements Iterable<Item> {
      * @return Item object from steque.
      */
     public Item pop() {
-
+        if(isEmpty()) throw new NoSuchElementException();
+        Item item = first.item;
+        first = first.next;
+        n--;
+        return item;
     }
     
     /**
@@ -70,6 +93,7 @@ public class Steque<Item> implements Iterable<Item> {
      * @return true if steque is empty, false otherwise.
      */
     public boolean isEmpty() {
+        return first==null || last ==null;
 
     }
     
@@ -78,7 +102,7 @@ public class Steque<Item> implements Iterable<Item> {
      * @return size as integer.
      */
     public int size() {
-
+        return n;
     }
     
     /**
