@@ -31,6 +31,7 @@ import java.util.NoSuchElementException;
  */
 public class Steque<Item> implements Iterable<Item> {
     private Node first, last;
+    private int n;
     private class Node{
         Item item;
         Node next;
@@ -40,6 +41,7 @@ public class Steque<Item> implements Iterable<Item> {
      * constructs a steque object.
      */
     public Steque() {
+        n = 0;
         first = last = null;
 
     }
@@ -57,6 +59,7 @@ public class Steque<Item> implements Iterable<Item> {
         last.next = null;
         if(first == null) first=last;
         else oldlast.next = last;
+        n++;
     }
     
     
