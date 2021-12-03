@@ -30,21 +30,20 @@ import java.util.NoSuchElementException;
  *
  */
 public class Steque<Item> implements Iterable<Item> {
-    private Item[] i;
+    private Item[] a;
     private int n;
-    private  int incapacity=10;
     private int first;
     private int last;
+    private static int incapacity = 6;
 
     /**
      * constructs a steque object.
      */
     public Steque() {
-        i = (Item[]) new Object[incapacity];
+        a = (Item[]) new Object[incapacity];
         n = 0;
-        first=0;
-        last=0;
-
+        first = 0;
+        last = 0;
     }
     
     
@@ -53,20 +52,18 @@ public class Steque<Item> implements Iterable<Item> {
      * @param item Item to be inserted.
      */
     public void enqueue(Item item) {
-        if(item==null) throw new IllegalArgumentException();
-        if (n == i.length) resize(2*i.length); 
-       last = (last+1)%incapacity;
-       i[last++] = item;
-       n++;
+        if (item == null) throw new IllegalArgumentException();
+        if(n == a.length) resize(2*incapacity);
+        a[(last + n++) % a.length] = item;
+        
     }
-    
-    
-    private void resize(int capacity) {
-        Item[] copy = (Item[]) new Object[capacity];
-        for (int j = 0; j < i.length; j++) {
-            copy[j] = i[j];
-            i = copy;
-        }
+    private void resize(int capacity){
+        Item temp[] = (Item[])  new Object[capacity];
+        for (int k = 0; k < n; k++) 
+            temp[k] = a[(first + k) % a.length];
+        a = temp;
+        first = 0;
+
     }
 
 
@@ -75,10 +72,10 @@ public class Steque<Item> implements Iterable<Item> {
      * @param item Item to be inserted.
      */
     public void push(Item item) {
-        if(item==null) throw new IllegalArgumentException();
-        if(n==i.length) resize(2*i.length);
-        i[first] = item;
-        n++;
+       if(item==null) throw new IllegalArgumentException();
+       if(first == 0) a[(first=a.length-1)] = item;
+       else a[(--first) % a.length] = item;
+       n++;
     }
     
     /**
@@ -87,11 +84,10 @@ public class Steque<Item> implements Iterable<Item> {
      */
     public Item pop() {
         if(isEmpty()) throw new NoSuchElementException();
-        Item item = i[n-1];
-        i[n-1] = null;
-        n--;
-        if(n>0 && n==i.length/4) resize(i.length/2);
-        return item;
+            Item item = a[(first+n-1) % a.length];
+            n--;
+            return item;
+
     }
     
     /**
@@ -120,48 +116,48 @@ public class Steque<Item> implements Iterable<Item> {
         return new ArrayIterator();
 
     }
-    public class ArrayIterator implements Iterator<Item>{
-        private int j;
-        private int size;
-        public ArrayIterator() {
-            j = first;
-            size=n;
-        }
+    public class ArrayIterator implements Iterator<Item> {
+        public int i = 0;
 
+        @Override
         public boolean hasNext() {
-            return j!=0;
+            return i < a.length;
         }
 
+        @Override
         public void remove() {
             throw new UnsupportedOperationException();
         }
 
+        @Override
         public Item next() {
-            if (!hasNext()) throw new NoSuchElementException();
-            size--;
-            return i[j++];
-            //Item item = i[(j + first) % i.length];
-            // j++;
-            // return item;
-            //return i[j--];
+            if(hasNext()){
+                return a[i++];
         }
+            throw new NoSuchElementException();
+    }
     }
     public static void main(String[] args){
         Steque<Integer> s = new Steque<Integer>();
         s.enqueue(14);
+        System.out.println(s.size());
         s.enqueue(17);
+        System.out.println(s.size());
         s.enqueue(20);
+        System.out.println(s.size());
         s.push(5);
+        System.out.println(s.size());
         s.push(10);
+        System.out.println(s.size());
         s.push(15);
+        System.out.println(s.size());
         Iterator<Integer> iit = s.iterator();
         System.out.println("steque elements");
-        while(iit.hasNext()){
-            System.out.println(iit.next());
-        }
+        while(iit.hasNext())
+        System.out.println(iit.next());
         System.out.println("popped elements");
-        while(!s.isEmpty()){
-            System.out.println(s.pop());
-        }
+       while(!s.isEmpty()){
+           System.out.println(s.pop());
+       }
     }
 }
