@@ -31,6 +31,7 @@ import java.util.NoSuchElementException;
  */
 public class Steque<Item> implements Iterable<Item> {
     private Node first, last;
+    private int n;
     private class Node{
         Item item;
         Node next;
@@ -41,6 +42,7 @@ public class Steque<Item> implements Iterable<Item> {
      * constructs a steque object.
      */
     public Steque() {
+        n=0;
         first = last = null;
         
     }
@@ -59,7 +61,7 @@ public class Steque<Item> implements Iterable<Item> {
         last.next = null;
         if(first == null) first=last;
         else oldlast.next = last;
-        
+        n++;
     }
     
     
@@ -77,7 +79,7 @@ public class Steque<Item> implements Iterable<Item> {
         first.item = item;
         first.next = oldfirst;
         if(last == null) last=first;
-
+        n++;
     }
     
     /**
@@ -89,6 +91,7 @@ public class Steque<Item> implements Iterable<Item> {
         if(isEmpty()) throw new NoSuchElementException();
         Item item = first.item;
         first = first.next;
+        n--;
         return item;
 
     }
@@ -97,7 +100,7 @@ public class Steque<Item> implements Iterable<Item> {
      * checks to see if steque is empty.
      * @return true if steque is empty, false otherwise.
      */
-    //time complexity:O(1), space complexity: O(1)
+    //time complexity:O(1), space complexity: 0
     public boolean isEmpty() {
         return first==null || last ==null;
 
@@ -107,12 +110,8 @@ public class Steque<Item> implements Iterable<Item> {
      * return the number of elements currently in the steque.
      * @return size as integer.
      */
-    //time complexity:O(n), space complexity: O(n)
+    //time complexity:O(1), space complexity: 0
     public int size() {
-        int n=0;
-        for(Item item:this){
-            n++;
-        }
         return n;
     }
     
