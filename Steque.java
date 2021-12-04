@@ -53,17 +53,18 @@ public class Steque<Item> implements Iterable<Item> {
      */
     public void enqueue(Item item) {
         if (item == null) throw new IllegalArgumentException();
-        if(n == a.length) resize(2*incapacity);
-        a[(last + n++) % a.length] = item;
-        
+        if(last == size()) resize(2*incapacity);
+        if(isEmpty()) a[last] = item;
+        else{
+        a[last] = item;
+        last++;
+        }
+        n++;
     }
     private void resize(int capacity){
         Item temp[] = (Item[])  new Object[capacity];
-        for (int k = 0; k < n; k++) 
-            temp[k] = a[(first + k) % a.length];
-        a = temp;
-        first = 0;
-
+        for (int k = 0; k <= n; k++) 
+            temp[k] = a[k];
     }
 
 
@@ -73,8 +74,8 @@ public class Steque<Item> implements Iterable<Item> {
      */
     public void push(Item item) {
        if(item==null) throw new IllegalArgumentException();
-       if(first == 0) a[(first=a.length-1)] = item;
-       else a[(--first) % a.length] = item;
+       if(first >= incapacity-1) resize(2*incapacity);
+       a[++first] = item;
        n++;
     }
     
@@ -84,7 +85,7 @@ public class Steque<Item> implements Iterable<Item> {
      */
     public Item pop() {
         if(isEmpty()) throw new NoSuchElementException();
-            Item item = a[(first+n-1) % a.length];
+            Item item = a[n];
             n--;
             return item;
 
@@ -121,7 +122,7 @@ public class Steque<Item> implements Iterable<Item> {
 
         @Override
         public boolean hasNext() {
-            return i < a.length;
+            return i <=n;
         }
 
         @Override
