@@ -34,7 +34,6 @@ public class Steque<Item> implements Iterable<Item> {
     private int n;
     private  int incapacity=10;
     private int first;
-    private int last;
 
     /**
      * constructs a steque object.
