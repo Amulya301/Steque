@@ -40,7 +40,7 @@ public class Steque<Item> implements Iterable<Item> {
     public Steque() {
         a = (Item[]) new Object([incapacity]);
         n = 0;
-
+        first = 0;
     }
     
     
